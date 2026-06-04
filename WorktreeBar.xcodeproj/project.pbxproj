@@ -1,0 +1,369 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		15A08BEF444EAD84556BBEF2 /* TerminalLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88885E56AC2E543842998BF3 /* TerminalLauncher.swift */; };
+		1DE0067A9DB220C1600DF32D /* DeleteWorktreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB45A80DB4C2A96DC9C0B7C /* DeleteWorktreeView.swift */; };
+		20C7466FB175E589F3DAC11E /* WorktreeBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DAE2855CED4EB99A65F2A /* WorktreeBarApp.swift */; };
+		3112CEB3298EABA2D2A4F585 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60415D883DE2F928A1FA3C47 /* SettingsView.swift */; };
+		323E1871B2F2F7847172B739 /* SidebarProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9837F6D5024A871E9A9D3F /* SidebarProject.swift */; };
+		47B1538C4639067F63CCCBCF /* NewWorktreeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27E63076DD3BFFCCD040BE9 /* NewWorktreeSheet.swift */; };
+		54936B0CA352C03B5E223DCA /* WindowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338C680FC5F4BFD6B8ECF605 /* WindowRouter.swift */; };
+		63186501F037D94393D38658 /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E25B49E1443D7CE4A0ED74 /* MenuContentView.swift */; };
+		C9475731E6AD4EEF9D1C0C0D /* TerminalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB784140C2CE8051F704255 /* TerminalConfig.swift */; };
+		D8B2FEA2F8EA987293D1F712 /* WorktreeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB358B97FDDAA58A33D1F22 /* WorktreeService.swift */; };
+		E49755EE25C57352B0A8B09A /* WorktreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86591FDB239D8806B022B44F /* WorktreeViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0B0DAE2855CED4EB99A65F2A /* WorktreeBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeBarApp.swift; sourceTree = "<group>"; };
+		338C680FC5F4BFD6B8ECF605 /* WindowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRouter.swift; sourceTree = "<group>"; };
+		60415D883DE2F928A1FA3C47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		86591FDB239D8806B022B44F /* WorktreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeViewModel.swift; sourceTree = "<group>"; };
+		88885E56AC2E543842998BF3 /* TerminalLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalLauncher.swift; sourceTree = "<group>"; };
+		ABB358B97FDDAA58A33D1F22 /* WorktreeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeService.swift; sourceTree = "<group>"; };
+		AC9837F6D5024A871E9A9D3F /* SidebarProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarProject.swift; sourceTree = "<group>"; };
+		B27E63076DD3BFFCCD040BE9 /* NewWorktreeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorktreeSheet.swift; sourceTree = "<group>"; };
+		BCB45A80DB4C2A96DC9C0B7C /* DeleteWorktreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteWorktreeView.swift; sourceTree = "<group>"; };
+		CEB784140C2CE8051F704255 /* TerminalConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalConfig.swift; sourceTree = "<group>"; };
+		D6E25B49E1443D7CE4A0ED74 /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
+		E5FCA3E3A804BE3D586E143A /* WorktreeBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorktreeBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		250DDF57D41E683E18B99ADA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BCB45A80DB4C2A96DC9C0B7C /* DeleteWorktreeView.swift */,
+				D6E25B49E1443D7CE4A0ED74 /* MenuContentView.swift */,
+				B27E63076DD3BFFCCD040BE9 /* NewWorktreeSheet.swift */,
+				60415D883DE2F928A1FA3C47 /* SettingsView.swift */,
+				338C680FC5F4BFD6B8ECF605 /* WindowRouter.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3E8FDE085803771EC5294249 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E5FCA3E3A804BE3D586E143A /* WorktreeBar.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7FC8F2792A3E498E4CA9F0FD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AC9837F6D5024A871E9A9D3F /* SidebarProject.swift */,
+				CEB784140C2CE8051F704255 /* TerminalConfig.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D598C5DA87843D5D3A4F4093 = {
+			isa = PBXGroup;
+			children = (
+				E2D95706812133D41ADB8BB2 /* WorktreeBar */,
+				3E8FDE085803771EC5294249 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E04FB20751AA2AE71926CC1B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				88885E56AC2E543842998BF3 /* TerminalLauncher.swift */,
+				ABB358B97FDDAA58A33D1F22 /* WorktreeService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E077A9D37EC747277353EDAA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				86591FDB239D8806B022B44F /* WorktreeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E2D95706812133D41ADB8BB2 /* WorktreeBar */ = {
+			isa = PBXGroup;
+			children = (
+				0B0DAE2855CED4EB99A65F2A /* WorktreeBarApp.swift */,
+				7FC8F2792A3E498E4CA9F0FD /* Models */,
+				E04FB20751AA2AE71926CC1B /* Services */,
+				E077A9D37EC747277353EDAA /* ViewModels */,
+				250DDF57D41E683E18B99ADA /* Views */,
+			);
+			path = WorktreeBar;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		941FEF7694B3109C6616B268 /* WorktreeBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AF65D5B566A7F4B4AE83544 /* Build configuration list for PBXNativeTarget "WorktreeBar" */;
+			buildPhases = (
+				FD3F5E294D3265491E8A5B25 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WorktreeBar;
+			packageProductDependencies = (
+			);
+			productName = WorktreeBar;
+			productReference = E5FCA3E3A804BE3D586E143A /* WorktreeBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		032C46706DEACA1F4C6E2421 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					941FEF7694B3109C6616B268 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = C8217598A0F34D9D6987CE7B /* Build configuration list for PBXProject "WorktreeBar" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D598C5DA87843D5D3A4F4093;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3E8FDE085803771EC5294249 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				941FEF7694B3109C6616B268 /* WorktreeBar */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FD3F5E294D3265491E8A5B25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DE0067A9DB220C1600DF32D /* DeleteWorktreeView.swift in Sources */,
+				63186501F037D94393D38658 /* MenuContentView.swift in Sources */,
+				47B1538C4639067F63CCCBCF /* NewWorktreeSheet.swift in Sources */,
+				3112CEB3298EABA2D2A4F585 /* SettingsView.swift in Sources */,
+				323E1871B2F2F7847172B739 /* SidebarProject.swift in Sources */,
+				C9475731E6AD4EEF9D1C0C0D /* TerminalConfig.swift in Sources */,
+				15A08BEF444EAD84556BBEF2 /* TerminalLauncher.swift in Sources */,
+				54936B0CA352C03B5E223DCA /* WindowRouter.swift in Sources */,
+				20C7466FB175E589F3DAC11E /* WorktreeBarApp.swift in Sources */,
+				D8B2FEA2F8EA987293D1F712 /* WorktreeService.swift in Sources */,
+				E49755EE25C57352B0A8B09A /* WorktreeViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0B50A9044B9A652DDF81D32F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1A688EA246649E7D56AA75E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		9B6292161B8C65C6AFA81613 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WorktreeBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.worktreebar;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D53A065D0AC1847CDF7FD2A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WorktreeBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.worktreebar;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5AF65D5B566A7F4B4AE83544 /* Build configuration list for PBXNativeTarget "WorktreeBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B6292161B8C65C6AFA81613 /* Debug */,
+				D53A065D0AC1847CDF7FD2A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C8217598A0F34D9D6987CE7B /* Build configuration list for PBXProject "WorktreeBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A688EA246649E7D56AA75E9 /* Debug */,
+				0B50A9044B9A652DDF81D32F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 032C46706DEACA1F4C6E2421 /* Project object */;
+}
