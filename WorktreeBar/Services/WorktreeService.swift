@@ -33,6 +33,24 @@ enum WorktreeService {
         return parsePorcelain(stdout)
     }
 
+    /// Whether `repoRoot` is inside a git working tree.
+    static func isGitRepo(in repoRoot: String) -> Bool {
+        guard let (stdout, _, code) = try? runGit(
+            ["-C", repoRoot, "rev-parse", "--is-inside-work-tree"]
+        ) else {
+            return false
+        }
+        return code == 0 && stdout.trimmingCharacters(in: .whitespacesAndNewlines) == "true"
+    }
+
+    /// `git -C <root> init` — turn a plain directory into a git repository.
+    static func initRepo(in repoRoot: String) throws {
+        let (_, stderr, code) = try runGit(["-C", repoRoot, "init"])
+        guard code == 0 else {
+            throw WorktreeError.gitFailed(exitCode: code, stderr: stderr)
+        }
+    }
+
     /// `git -C <root> worktree add [-b <newBranch>] <path> <ref>`
     /// If `createBranch` is true, `-b <branch>` is added.
     static func add(

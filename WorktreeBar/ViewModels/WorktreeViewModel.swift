@@ -13,9 +13,13 @@ final class WorktreeViewModel: ObservableObject {
     @Published var projects: [SidebarProject] = []
     @Published private(set) var worktrees: [UUID: [GitWorktree]] = [:]
     @Published private(set) var workspaceNames: [String: String] = [:]
+    @Published private(set) var workspaceOrder: [UUID: [String]] = [:]
     @Published private(set) var managedWorktreePaths: [UUID: Set<String>] = [:]
     @Published var expanded: Set<UUID> = []
     @Published private(set) var loading: Set<UUID> = []
+    /// Projects whose root directory is not a git repository. Tracked so the UI
+    /// can offer a `git init` action instead of surfacing an error.
+    @Published private(set) var notGitRepo: Set<UUID> = []
     @Published var lastError: String?
 
     /// Terminal launch configuration (which app + command template).
@@ -29,6 +33,7 @@ final class WorktreeViewModel: ObservableObject {
 
     private let projectsDefaultsKey = "sidebar.projects.v1"
     private let workspaceNamesDefaultsKey = "sidebar.workspaceNames.v1"
+    private let workspaceOrderDefaultsKey = "worktreebar.workspaceOrder.v1"
     private let managedWorktreePathsDefaultsKey = "sidebar.managedWorktreePaths.v1"
     private let terminalConfigDefaultsKey = "worktreebar.terminalConfig.v1"
     private let launchersDefaultsKey = "worktreebar.launchers.v1"
@@ -45,6 +50,7 @@ final class WorktreeViewModel: ObservableObject {
             projects = decoded
         }
         loadWorkspaceNames()
+        loadWorkspaceOrder()
         loadManagedWorktreePaths()
         loadTerminalConfig()
         loadLaunchers()
@@ -68,6 +74,33 @@ final class WorktreeViewModel: ObservableObject {
     private func saveWorkspaceNames() {
         if let data = try? JSONEncoder().encode(workspaceNames) {
             UserDefaults.standard.set(data, forKey: workspaceNamesDefaultsKey)
+        }
+    }
+
+    private func loadWorkspaceOrder() {
+        guard let data = UserDefaults.standard.data(forKey: workspaceOrderDefaultsKey),
+              let decoded = try? JSONDecoder().decode([String: [String]].self, from: data) else {
+            workspaceOrder = [:]
+            return
+        }
+
+        workspaceOrder = Dictionary(
+            uniqueKeysWithValues: decoded.compactMap { key, paths in
+                guard let id = UUID(uuidString: key) else { return nil }
+                return (id, paths.map(normalizedPath))
+            }
+        )
+    }
+
+    private func saveWorkspaceOrder() {
+        let encoded = Dictionary(
+            uniqueKeysWithValues: workspaceOrder.map { id, paths in
+                (id.uuidString, paths.map(normalizedPath))
+            }
+        )
+
+        if let data = try? JSONEncoder().encode(encoded) {
+            UserDefaults.standard.set(data, forKey: workspaceOrderDefaultsKey)
         }
     }
 
@@ -145,15 +178,41 @@ final class WorktreeViewModel: ObservableObject {
     func removeProject(_ project: SidebarProject) {
         projects.removeAll { $0.id == project.id }
         worktrees.removeValue(forKey: project.id)
+        workspaceOrder.removeValue(forKey: project.id)
         managedWorktreePaths.removeValue(forKey: project.id)
         expanded.remove(project.id)
+        notGitRepo.remove(project.id)
         save()
+        saveWorkspaceOrder()
         saveManagedWorktreePaths()
     }
 
     func updateProject(_ project: SidebarProject) {
         guard let idx = projects.firstIndex(where: { $0.id == project.id }) else { return }
         projects[idx] = project
+        save()
+    }
+
+    func moveProject(_ movingID: UUID, before targetID: UUID) {
+        guard let from = projects.firstIndex(where: { $0.id == movingID }),
+              let to = projects.firstIndex(where: { $0.id == targetID }),
+              from != to else {
+            return
+        }
+
+        let project = projects.remove(at: from)
+        let adjustedTo = projects.firstIndex(where: { $0.id == targetID }) ?? to
+        projects.insert(project, at: adjustedTo)
+        save()
+    }
+
+    func moveProject(_ project: SidebarProject, by offset: Int) {
+        guard let from = projects.firstIndex(where: { $0.id == project.id }) else { return }
+        let to = max(0, min(projects.count - 1, from + offset))
+        guard from != to else { return }
+
+        let item = projects.remove(at: from)
+        projects.insert(item, at: to)
         save()
     }
 
@@ -175,6 +234,18 @@ final class WorktreeViewModel: ObservableObject {
         let root = project.rootPath
         loading.insert(id)
         Task.detached { [weak self] in
+            // Distinguish "not a git repo" (an expected state we offer to fix)
+            // from genuine git failures.
+            guard WorktreeService.isGitRepo(in: root) else {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.loading.remove(id)
+                    self.notGitRepo.insert(id)
+                    self.worktrees[id] = []
+                }
+                return
+            }
+
             let result: Result<[GitWorktree], Error>
             do {
                 let list = try WorktreeService.list(in: root)
@@ -185,11 +256,39 @@ final class WorktreeViewModel: ObservableObject {
             await MainActor.run { [weak self] in
                 guard let self else { return }
                 self.loading.remove(id)
+                self.notGitRepo.remove(id)
                 switch result {
                 case let .success(list):
                     self.worktrees[id] = self.visibleWorktrees(from: list, for: id)
                     self.lastError = nil
                 case let .failure(err):
+                    self.lastError = err.localizedDescription
+                }
+            }
+        }
+    }
+
+    /// `git init` a project's root, then refresh so its `current` workspace
+    /// shows up.
+    func initGit(_ project: SidebarProject) {
+        let root = project.rootPath
+        loading.insert(project.id)
+        Task.detached { [weak self] in
+            let result: Result<Void, Error>
+            do {
+                try WorktreeService.initRepo(in: root)
+                result = .success(())
+            } catch {
+                result = .failure(error)
+            }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                switch result {
+                case .success:
+                    self.lastError = nil
+                    self.refresh(project)
+                case let .failure(err):
+                    self.loading.remove(project.id)
                     self.lastError = err.localizedDescription
                 }
             }
@@ -219,6 +318,10 @@ final class WorktreeViewModel: ObservableObject {
             return worktree.path
         }
         return "\(worktree.displayLabel) — \(worktree.path)"
+    }
+
+    func isCurrentWorkspace(_ worktree: GitWorktree, in project: SidebarProject) -> Bool {
+        normalizedPath(worktree.path) == normalizedPath(project.rootPath)
     }
 
     func renameWorkspace(for worktree: GitWorktree, to name: String) {
@@ -296,6 +399,48 @@ final class WorktreeViewModel: ObservableObject {
 
     // MARK: - Launching
 
+    var supportsTerminalSplits: Bool {
+        terminalConfig.presetID == "ghostty"
+    }
+
+    func open(
+        _ worktree: GitWorktree,
+        in project: SidebarProject,
+        launcher: AgentLauncher,
+        mode: TerminalLauncher.LaunchMode = .selectExisting
+    ) {
+        let workspaceName = displayName(for: worktree)
+        let commandTitle = launcher.command.isEmpty ? "" : launcher.title
+        let context = TerminalLauncher.LaunchContext(
+            projectID: project.id,
+            projectName: project.name,
+            workspacePath: worktree.path,
+            workspaceName: workspaceName,
+            commandTitle: commandTitle,
+            command: launcher.command,
+            mode: mode
+        )
+
+        do {
+            try TerminalLauncher.launch(
+                config: terminalConfig,
+                context: context
+            )
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    /// Open a plain terminal (no command) in the worktree. Used for the
+    /// double-click shortcut. Prefers the user's command-less launcher so its
+    /// tab title/grouping stays consistent, falling back to a built-in one if
+    /// the user removed it.
+    func openTerminal(_ worktree: GitWorktree, in project: SidebarProject) {
+        let terminal = launchers.first { $0.command.isEmpty }
+            ?? AgentLauncher(title: "Terminal", systemImage: "terminal", command: "")
+        open(worktree, in: project, launcher: terminal)
+    }
+
     func open(_ worktree: GitWorktree, command: String) {
         do {
             try TerminalLauncher.launch(
@@ -314,12 +459,65 @@ final class WorktreeViewModel: ObservableObject {
         (path as NSString).standardizingPath
     }
 
-    /// Only show worktrees the user explicitly created (or named) — never the
-    /// repo's primary worktree or unrelated ones already on disk.
+    /// Show every real worktree for the project, including the repo's primary
+    /// one. Bare entries are skipped since they have no working directory to
+    /// open a terminal in. Order is preserved from `git worktree list`, whose
+    /// first entry is always the primary worktree.
     private func visibleWorktrees(from list: [GitWorktree], for projectID: UUID) -> [GitWorktree] {
-        let namedPaths = Set(workspaceNames.keys.map(normalizedPath))
-        let managedPaths = managedWorktreePaths[projectID, default: []].union(namedPaths)
-        return list.filter { managedPaths.contains(normalizedPath($0.path)) }
+        let visible = list.filter { !$0.isBare }
+        let originalIndex = Dictionary(
+            uniqueKeysWithValues: visible.enumerated().map { idx, worktree in
+                (normalizedPath(worktree.path), idx)
+            }
+        )
+        let orderIndex = Dictionary(
+            uniqueKeysWithValues: workspaceOrder[projectID, default: []].enumerated().map { idx, path in
+                (normalizedPath(path), idx)
+            }
+        )
+
+        return visible.sorted { lhs, rhs in
+            let leftPath = normalizedPath(lhs.path)
+            let rightPath = normalizedPath(rhs.path)
+            let leftRank = orderIndex[leftPath] ?? Int.max
+            let rightRank = orderIndex[rightPath] ?? Int.max
+            if leftRank != rightRank {
+                return leftRank < rightRank
+            }
+            return (originalIndex[leftPath] ?? 0) < (originalIndex[rightPath] ?? 0)
+        }
+    }
+
+    func moveWorkspace(_ movingPath: String, before targetPath: String, in projectID: UUID) {
+        guard var current = worktrees[projectID],
+              let from = current.firstIndex(where: { normalizedPath($0.path) == normalizedPath(movingPath) }),
+              let to = current.firstIndex(where: { normalizedPath($0.path) == normalizedPath(targetPath) }),
+              from != to else {
+            return
+        }
+
+        let moving = current.remove(at: from)
+        let adjustedTo = current.firstIndex(where: { normalizedPath($0.path) == normalizedPath(targetPath) }) ?? to
+        current.insert(moving, at: adjustedTo)
+        worktrees[projectID] = current
+        workspaceOrder[projectID] = current.map { normalizedPath($0.path) }
+        saveWorkspaceOrder()
+    }
+
+    func moveWorkspace(_ worktree: GitWorktree, in projectID: UUID, by offset: Int) {
+        guard var current = worktrees[projectID],
+              let from = current.firstIndex(where: { normalizedPath($0.path) == normalizedPath(worktree.path) }) else {
+            return
+        }
+
+        let to = max(0, min(current.count - 1, from + offset))
+        guard from != to else { return }
+
+        let item = current.remove(at: from)
+        current.insert(item, at: to)
+        worktrees[projectID] = current
+        workspaceOrder[projectID] = current.map { normalizedPath($0.path) }
+        saveWorkspaceOrder()
     }
 
     private func markManagedWorktree(path: String, projectID: UUID) {

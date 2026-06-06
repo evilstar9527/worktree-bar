@@ -14,4 +14,9 @@ final class WindowRouter: ObservableObject {
 
     @Published var newWorktreeProject: SidebarProject?
     @Published var deleteTarget: DeleteTarget?
+    @Published var openWorktreesRequest = UUID()
+
+    func requestOpenWorktrees() {
+        openWorktreesRequest = UUID()
+    }
 }

@@ -14,8 +14,13 @@ struct DeleteWorktreeView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if let target = router.deleteTarget {
-                Text("Delete workspace?")
-                    .font(.headline)
+                HStack(spacing: 8) {
+                    Image(systemName: "trash.fill")
+                        .font(.title3)
+                        .foregroundColor(AppPalette.coral)
+                    Text("Delete workspace?")
+                        .font(.headline)
+                }
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(model.displayName(for: target.worktree))
@@ -25,17 +30,24 @@ struct DeleteWorktreeView: View {
                         .foregroundColor(.secondary)
                         .textSelection(.enabled)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, CardMetrics.cardPaddingH)
+                .padding(.vertical, CardMetrics.cardPaddingV)
+                .cardBackground(tint: AppPalette.coral)
 
                 if let branch = target.worktree.branch {
                     Toggle("Also delete local branch “\(branch)” (-D)", isOn: $deleteLocalBranch)
                 }
 
-                Text("This removes the worktree from git. The directory is deleted by git if it is clean.")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                InfoCard(
+                    systemImage: "info.circle",
+                    message: "This removes the worktree from git. The directory is deleted by git if it is clean.",
+                    tint: AppPalette.amber,
+                    lineLimit: nil
+                )
 
                 if let err = errorMessage {
-                    Text(err).font(.caption).foregroundColor(.red)
+                    InfoCard(systemImage: "exclamationmark.triangle.fill", message: err, tint: AppPalette.coral)
                 }
 
                 HStack {
@@ -45,6 +57,8 @@ struct DeleteWorktreeView: View {
                     Button(submitting ? "Deleting…" : "Delete", role: .destructive) {
                         submit(target)
                     }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AppPalette.coral)
                     .keyboardShortcut(.defaultAction)
                     .disabled(submitting)
                 }
@@ -55,6 +69,7 @@ struct DeleteWorktreeView: View {
         }
         .padding(16)
         .frame(minWidth: 420)
+        .background(AppPalette.canvas.ignoresSafeArea())
     }
 
     private func submit(_ target: WindowRouter.DeleteTarget) {

@@ -13,7 +13,9 @@
 		3112CEB3298EABA2D2A4F585 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60415D883DE2F928A1FA3C47 /* SettingsView.swift */; };
 		323E1871B2F2F7847172B739 /* SidebarProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9837F6D5024A871E9A9D3F /* SidebarProject.swift */; };
 		47B1538C4639067F63CCCBCF /* NewWorktreeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27E63076DD3BFFCCD040BE9 /* NewWorktreeSheet.swift */; };
+		4D45B2B4B42F0ED6C44C9DF6 /* PanelPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592B028E605A3DAC4F9CEEF7 /* PanelPresenter.swift */; };
 		54936B0CA352C03B5E223DCA /* WindowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338C680FC5F4BFD6B8ECF605 /* WindowRouter.swift */; };
+		60029D2BDD61037F84630195 /* CardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D4D921B4E5B2F0121B15A /* CardStyle.swift */; };
 		63186501F037D94393D38658 /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E25B49E1443D7CE4A0ED74 /* MenuContentView.swift */; };
 		C9475731E6AD4EEF9D1C0C0D /* TerminalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB784140C2CE8051F704255 /* TerminalConfig.swift */; };
 		D8B2FEA2F8EA987293D1F712 /* WorktreeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB358B97FDDAA58A33D1F22 /* WorktreeService.swift */; };
@@ -22,7 +24,9 @@
 
 /* Begin PBXFileReference section */
 		0B0DAE2855CED4EB99A65F2A /* WorktreeBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeBarApp.swift; sourceTree = "<group>"; };
+		261D4D921B4E5B2F0121B15A /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
 		338C680FC5F4BFD6B8ECF605 /* WindowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRouter.swift; sourceTree = "<group>"; };
+		592B028E605A3DAC4F9CEEF7 /* PanelPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelPresenter.swift; sourceTree = "<group>"; };
 		60415D883DE2F928A1FA3C47 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		86591FDB239D8806B022B44F /* WorktreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeViewModel.swift; sourceTree = "<group>"; };
 		88885E56AC2E543842998BF3 /* TerminalLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalLauncher.swift; sourceTree = "<group>"; };
@@ -39,9 +43,11 @@
 		250DDF57D41E683E18B99ADA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				261D4D921B4E5B2F0121B15A /* CardStyle.swift */,
 				BCB45A80DB4C2A96DC9C0B7C /* DeleteWorktreeView.swift */,
 				D6E25B49E1443D7CE4A0ED74 /* MenuContentView.swift */,
 				B27E63076DD3BFFCCD040BE9 /* NewWorktreeSheet.swift */,
+				592B028E605A3DAC4F9CEEF7 /* PanelPresenter.swift */,
 				60415D883DE2F928A1FA3C47 /* SettingsView.swift */,
 				338C680FC5F4BFD6B8ECF605 /* WindowRouter.swift */,
 			);
@@ -160,9 +166,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60029D2BDD61037F84630195 /* CardStyle.swift in Sources */,
 				1DE0067A9DB220C1600DF32D /* DeleteWorktreeView.swift in Sources */,
 				63186501F037D94393D38658 /* MenuContentView.swift in Sources */,
 				47B1538C4639067F63CCCBCF /* NewWorktreeSheet.swift in Sources */,
+				4D45B2B4B42F0ED6C44C9DF6 /* PanelPresenter.swift in Sources */,
 				3112CEB3298EABA2D2A4F585 /* SettingsView.swift in Sources */,
 				323E1871B2F2F7847172B739 /* SidebarProject.swift in Sources */,
 				C9475731E6AD4EEF9D1C0C0D /* TerminalConfig.swift in Sources */,

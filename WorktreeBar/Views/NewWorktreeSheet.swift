@@ -22,17 +22,22 @@ struct NewWorktreeSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("New Worktree — \(project.name)")
-                .font(.headline)
+            HStack(spacing: 8) {
+                Image(systemName: "plus.rectangle.on.folder")
+                    .font(.title3)
+                    .foregroundColor(AppPalette.blue)
+                Text("New Worktree — \(project.name)")
+                    .font(.headline)
+            }
 
             Form {
                 TextField("Workspace name", text: $workspaceName)
-                    .onChange(of: workspaceName) { _ in autofillPathIfNeeded() }
 
                 TextField("New branch name", text: $newBranchName)
                     .onChange(of: newBranchName) { _ in autofillPathIfNeeded() }
 
                 Toggle("Create new branch (-b)", isOn: $createBranch)
+                    .onChange(of: createBranch) { _ in autofillPathIfNeeded() }
 
                 HStack {
                     Text("Base ref")
@@ -47,6 +52,7 @@ struct NewWorktreeSheet: View {
                             }
                         }
                         .labelsHidden()
+                        .onChange(of: ref) { _ in autofillPathIfNeeded() }
                     }
                 }
 
@@ -56,9 +62,7 @@ struct NewWorktreeSheet: View {
                 }
 
                 if let err = errorMessage {
-                    Text(err)
-                        .foregroundColor(.red)
-                        .font(.caption)
+                    InfoCard(systemImage: "exclamationmark.triangle.fill", message: err, tint: AppPalette.coral)
                 }
             }
 
@@ -67,12 +71,15 @@ struct NewWorktreeSheet: View {
                 Button("Cancel") { dismiss() }
                     .keyboardShortcut(.cancelAction)
                 Button(submitting ? "Creating…" : "Create") { submit() }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AppPalette.blue)
                     .keyboardShortcut(.defaultAction)
                     .disabled(!canSubmit)
             }
         }
         .padding(16)
         .frame(minWidth: 520)
+        .background(AppPalette.canvas.ignoresSafeArea())
         .task { await loadRefs() }
         .onAppear { autofillPathIfNeeded() }
     }
@@ -111,10 +118,13 @@ struct NewWorktreeSheet: View {
     }
 
     private func defaultWorktreePath() -> String {
-        let name = workspaceName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            ? newBranchName
-            : workspaceName
-        let safeName = sanitizePathComponent(name.isEmpty ? "branch" : name)
+        // The worktree directory is named after the branch, never the (often
+        // CJK / free-form) workspace name. When not creating a branch we fall
+        // back to the chosen base ref.
+        let branchName = createBranch
+            ? newBranchName.trimmingCharacters(in: .whitespacesAndNewlines)
+            : ref
+        let safeName = sanitizePathComponent(branchName.isEmpty ? "branch" : branchName)
         return ((project.rootPath as NSString).appendingPathComponent(".worktree") as NSString)
             .appendingPathComponent(safeName)
     }

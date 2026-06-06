@@ -17,8 +17,13 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Terminal")
-                .font(.headline)
+            HStack(spacing: 8) {
+                Image(systemName: "terminal.fill")
+                    .font(.title3)
+                    .foregroundColor(AppPalette.blue)
+                Text("Terminal")
+                    .font(.headline)
+            }
 
             Picker("Preferred terminal", selection: $selectedPreset) {
                 ForEach(["ghostty", "terminal", "iterm"], id: \.self) { id in
@@ -32,6 +37,9 @@ struct SettingsView: View {
                 }
                 apply()
             }
+            .padding(.horizontal, CardMetrics.cardPaddingH)
+            .padding(.vertical, CardMetrics.cardPaddingV)
+            .cardBackground(tint: AppPalette.blue)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("Launch command template")
@@ -39,7 +47,11 @@ struct SettingsView: View {
                 TextEditor(text: $template)
                     .font(.system(.body, design: .monospaced))
                     .frame(height: 70)
-                    .border(Color.secondary.opacity(0.3))
+                    .padding(4)
+                    .background {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .strokeBorder(Color.secondary.opacity(0.3), lineWidth: 1)
+                    }
                     .onChange(of: template) { _ in
                         // Editing the template moves us to "custom".
                         if TerminalConfig.preset(for: selectedPreset)?.template != template {
@@ -47,10 +59,13 @@ struct SettingsView: View {
                         }
                         apply()
                     }
-                Text("Placeholders: {path} {path_q} {cmd} {cmd_e}")
+                Text("Placeholders: {path} {path_q} {cmd} {cmd_e} {project} {workspace} {title}")
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
+            .padding(.horizontal, CardMetrics.cardPaddingH)
+            .padding(.vertical, CardMetrics.cardPaddingV)
+            .cardBackground(tint: AppPalette.violet)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("Preview")
@@ -60,12 +75,22 @@ struct SettingsView: View {
                     .foregroundColor(.secondary)
                     .textSelection(.enabled)
                     .lineLimit(3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(8)
+                    .background {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .fill(Color(nsColor: .textBackgroundColor).opacity(0.6))
+                    }
             }
+            .padding(.horizontal, CardMetrics.cardPaddingH)
+            .padding(.vertical, CardMetrics.cardPaddingV)
+            .cardBackground(tint: AppPalette.mint)
 
             Spacer()
         }
         .padding(16)
-        .frame(width: 480, height: 320)
+        .frame(width: 480, height: 420)
+        .background(AppPalette.canvas.ignoresSafeArea())
         .onAppear {
             selectedPreset = model.terminalConfig.presetID
             template = model.terminalConfig.template
